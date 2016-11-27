@@ -20,7 +20,7 @@ import jnr.ffi.LibraryLoader;
 import jnr.ffi.annotations.In;
 import jnr.ffi.annotations.Out;
 import jnr.ffi.byref.LongLongByReference;
-import jnr.ffi.types.u_int64_t;
+import jnr.ffi.types.*;
 
 public class NaCl {
 
@@ -43,7 +43,7 @@ public class NaCl {
     }
 
     public static final Integer[] MIN_SUPPORTED_VERSION =
-            new Integer[] { 1, 0, 3 };
+            new Integer[] { 1, 0, 11 };
 
     private static boolean versionSupported = false;
 
@@ -80,22 +80,12 @@ public class NaCl {
         // ---------------------------------------------------------------------
         // Generating Random Data
 
+        int randombytes_random();
+        int randombytes_uniform(@In @u_int32_t int upperBound);
         void randombytes(@Out byte[] buffer, @In @u_int64_t int size);
 
         // ---------------------------------------------------------------------
         // Secret-key cryptography: Authenticated encryption
-
-        /**
-         * @deprecated use CRYPTO_SECRETBOX_XSALSA20POLY1305_KEYBYTES
-         */
-        @Deprecated
-        int XSALSA20_POLY1305_SECRETBOX_KEYBYTES = 32;
-
-        /**
-         * @deprecated use CRYPTO_SECRETBOX_XSALSA20POLY1305_NONCEBYTES
-         */
-        @Deprecated
-        int XSALSA20_POLY1305_SECRETBOX_NONCEBYTES = 24;
 
         int CRYPTO_SECRETBOX_XSALSA20POLY1305_KEYBYTES = 32;
 
@@ -107,6 +97,18 @@ public class NaCl {
 
         int crypto_secretbox_xsalsa20poly1305_open(
                 @Out byte[] message, @In byte[] ct, @In @u_int64_t int length,
+                @In byte[] nonce, @In byte[] key);
+
+        int CRYPTO_SECRETBOX_KEYBYTES = CRYPTO_SECRETBOX_XSALSA20POLY1305_KEYBYTES;
+
+        int CRYPTO_SECRETBOX_NONCEBYTES = CRYPTO_SECRETBOX_XSALSA20POLY1305_NONCEBYTES;
+
+        int crypto_secretbox_easy(
+                @Out byte[] ct, @In byte[] msg, @In @u_int64_t int mlen,
+                @In byte[] nonce, @In byte[] key);
+
+        int crypto_secretbox_open_easy(
+                @Out byte[] msg, @In byte[] ct, @In @u_int64_t int clen,
                 @In byte[] nonce, @In byte[] key);
 
         // ---------------------------------------------------------------------
