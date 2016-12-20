@@ -101,6 +101,8 @@ public class NaCl {
 
         int CRYPTO_SECRETBOX_XSALSA20POLY1305_NONCEBYTES = 24;
 
+        int CRYPTO_SECRETBOX_XSALSA20POLY1305_MACBYTES = 16;
+
         int crypto_secretbox_xsalsa20poly1305(
                 @Out byte[] ct, @In byte[] msg, @In @u_int64_t int length,
                 @In byte[] nonce, @In byte[] key);
@@ -112,6 +114,8 @@ public class NaCl {
         int CRYPTO_SECRETBOX_KEYBYTES = CRYPTO_SECRETBOX_XSALSA20POLY1305_KEYBYTES;
 
         int CRYPTO_SECRETBOX_NONCEBYTES = CRYPTO_SECRETBOX_XSALSA20POLY1305_NONCEBYTES;
+
+        int CRYPTO_SECRETBOX_MACBYTES = CRYPTO_SECRETBOX_XSALSA20POLY1305_MACBYTES;
 
         int crypto_secretbox_easy(
                 @Out byte[] ct, @In byte[] msg, @In @u_int64_t int mlen,
